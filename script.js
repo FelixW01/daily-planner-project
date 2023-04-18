@@ -1,8 +1,52 @@
-// Wrap all code that interacts with the DOM in a call to jQuery to ensure that
-// the code isn't run until the browser has finished rendering all the elements
-// in the html.
-$(function () {
-  // TODO: Add a listener for click events on the save button. This code should
+const date = dayjs().format(('dddd, MMMM DD'));
+console.log(date);
+const today = $('#currentDay');
+const saveBtn = $('.saveBtn');
+const blockHour = $('.time-block');
+
+today.text(date);
+
+function saveItem() {
+  console.log("Clicked!")
+  var text = $(this).closest('div').find('.description').val();
+  var time = $(this).parent().attr('id');
+  console.log(text);
+  console.log(time);
+  localStorage.setItem(time, text);
+};
+
+function currentHour() {
+  blockHour.each(function() {
+var timeBlock = parseInt($(this).attr('data-time'));
+const hour = 10;
+console.log(timeBlock + " timeBlock");
+console.log(hour + " current hour");
+  if(timeBlock < hour) {
+    console.log('past');
+    $(this).addClass('past');
+  } else if(timeBlock === hour) {
+    console.log('present')
+    $(this).addClass('present');
+  } else {
+    console.log('future')
+    $(this).addClass('future');
+  };
+});
+                           
+
+//get the id, and the hour of the blocks
+// for each of the blocks {
+// if the hour of the block === hour then current
+// if the hour of the block < hour then past
+//if the hour of the block > hour then future
+//}
+}
+currentHour();
+// blockHour.on('click',currentHour);
+saveBtn.on('click', saveItem);
+
+
+ // TODO: Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
   // local storage. HINT: What does `this` reference in the click listener
   // function? How can DOM traversal be used to get the "hour-x" id of the
@@ -19,5 +63,3 @@ $(function () {
   // the values of the corresponding textarea elements. HINT: How can the id
   // attribute of each time-block be used to do this?
   //
-  // TODO: Add code to display the current date in the header of the page.
-});
